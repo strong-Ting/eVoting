@@ -26,6 +26,8 @@ contract eVoting{
 
   function vertifySha256(bytes memory kData,uint index)public returns(bool result){
       votingMachine[index].kData = kData;
+      require(votingMachine[index].vertifyResult == 2);
+      
       if(sha256(kData) == votingMachine[index].kDataHash){
           votingMachine[index].vertifyResult = 1;
           result =  true;
@@ -33,6 +35,7 @@ contract eVoting{
           votingMachine[index].vertifyResult = 0;
           result =  false;
       }
+      
       emit vertifyResult(result);
   }
 
@@ -49,7 +52,6 @@ contract eVoting{
       emit vertifyResult(result);
   }
   
-
   function sha256Value(bytes memory data)public pure returns(bytes32){
       return sha256(data);
   }
