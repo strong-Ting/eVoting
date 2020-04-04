@@ -4,16 +4,41 @@ contract eVoting{
     
   event votingIndex(uint256 index);    
   event vertifyResult(bool result);
+  address public creater = msg.sender;
+  
+  enum State{
+      prepare,
+      voting,
+      vertify,
+      finish
+  }
+  State VoteState =State.prepare; // 0 == voteBefore , 1 == voting ,2 == vertify ,3 == finish
   
   struct EachUpdate{
     bytes32 kDataHash;
-    bytes kData;
+    string kData;
     uint8 vertifyResult; //0 == false , 1 == true ,2 == unVertify
   }
 
   EachUpdate[] votingMachine;
 
-  function voting(bytes32 hashValue)public returns(uint256 index){
+  modifier onlyCreater{
+      require(msg.sender == creater);
+      _;
+  }
+  modifier stateCheck(State _state){
+      require(_state == VoteState);
+      _;
+  }
+  
+  function nextState() onlyCreater public {
+      require(VoteState != State.finish);
+      VoteState = State(uint(VoteState) + 1);
+      
+  }
+ 
+  
+  function voting(bytes32 hashValue)stateCheck(State.voting) public returns(uint256 index){
     index = votingMachine.push(
       EachUpdate({
         kDataHash: hashValue,
@@ -24,11 +49,11 @@ contract eVoting{
     emit votingIndex(index);
   }
 
-  function vertifySha256(bytes memory kData,uint index)public returns(bool result){
-      votingMachine[index].kData = kData;
+  function vertifySha256(string memory kData,uint index) stateCheck(State.vertify) public returns(bool result){
       require(votingMachine[index].vertifyResult == 2);
+      votingMachine[index].kData = kData;
       
-      if(sha256(kData) == votingMachine[index].kDataHash){
+      if(sha256(abi.encode(kData)) == votingMachine[index].kDataHash){
           votingMachine[index].vertifyResult = 1;
           result =  true;
       }else{
@@ -40,9 +65,10 @@ contract eVoting{
   }
 
   
-  function vertifyKeccak256(bytes memory kData,uint index)public returns(bool result){
+  function vertifyKeccak256(string memory kData,uint index) stateCheck(State.vertify) public returns(bool result){
+      require(votingMachine[index].vertifyResult == 2);
       votingMachine[index].kData = kData;
-      if(keccak256(kData) == votingMachine[index].kDataHash){
+      if(keccak256(abi.encode(kData)) == votingMachine[index].kDataHash){
           votingMachine[index].vertifyResult = 1;
           result = true;
       }else{
@@ -52,11 +78,11 @@ contract eVoting{
       emit vertifyResult(result);
   }
   
-  function sha256Value(bytes memory data)public pure returns(bytes32){
-      return sha256(data);
+  function sha256Value(string memory data)public pure returns(bytes32){
+      return sha256(abi.encode(data));
   }
-  function keccak256Value(bytes memory data)public pure returns(bytes32){
-      return keccak256(data);
+  function keccak256Value(string memory data)public pure returns(bytes32){
+      return keccak256(abi.encode(data));
   }
 
 
@@ -64,7 +90,7 @@ contract eVoting{
     return votingMachine[len].kDataHash;
   }
   
-  function checkData(uint len)public view returns(bytes memory returnData){
+  function checkData(uint len)public view returns(string memory returnData){
     return votingMachine[len].kData;
   }
   
@@ -76,7 +102,7 @@ contract eVoting{
   function checkLength()public view returns(uint len){
       return votingMachine.length;
   }
- 
+  function checkState()public view returns(State state){
+      return VoteState;
+  }
 }
-
-
