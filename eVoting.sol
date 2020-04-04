@@ -19,7 +19,7 @@ contract eVoting{
     string kData;
     uint8 vertifyResult; //0 == false , 1 == true ,2 == unVertify
   }
-
+  string[] Candidate;
   EachUpdate[] votingMachine;
 
   modifier onlyCreater{
@@ -37,6 +37,9 @@ contract eVoting{
       
   }
  
+  function addCandidate(string memory _Candidate) stateCheck(State.prepare) onlyCreater public{
+      Candidate.push(_Candidate);
+  }
   
   function voting(bytes32 hashValue)stateCheck(State.voting) public returns(uint256 index){
     index = votingMachine.push(
