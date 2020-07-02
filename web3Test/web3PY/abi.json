@@ -1,88 +1,35 @@
-var ABI =[
+[
 	{
-		"constant": false,
-		"inputs": [],
-		"name": "nextState",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": true,
+		"anonymous": false,
 		"inputs": [
 			{
-				"name": "len",
+				"indexed": false,
+				"internalType": "bool",
+				"name": "result",
+				"type": "bool"
+			}
+		],
+		"name": "vertifyResult",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "index",
 				"type": "uint256"
 			}
 		],
-		"name": "checkData",
-		"outputs": [
-			{
-				"name": "returnData",
-				"type": "string"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "len",
-				"type": "uint256"
-			}
-		],
-		"name": "checkHash",
-		"outputs": [
-			{
-				"name": "returnData",
-				"type": "bytes32"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "len",
-				"type": "uint256"
-			}
-		],
-		"name": "checkVertify",
-		"outputs": [
-			{
-				"name": "returnData",
-				"type": "uint8"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "creater",
-		"outputs": [
-			{
-				"name": "",
-				"type": "address"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
+		"name": "votingIndex",
+		"type": "event"
 	},
 	{
 		"constant": false,
 		"inputs": [
 			{
+				"internalType": "string",
 				"name": "_Candidate",
 				"type": "string"
 			}
@@ -97,52 +44,17 @@ var ABI =[
 		"constant": true,
 		"inputs": [
 			{
-				"name": "data",
-				"type": "string"
-			}
-		],
-		"name": "keccak256Value",
-		"outputs": [
-			{
-				"name": "",
-				"type": "bytes32"
-			}
-		],
-		"payable": false,
-		"stateMutability": "pure",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "kData",
-				"type": "string"
-			},
-			{
-				"name": "index",
+				"internalType": "uint256",
+				"name": "len",
 				"type": "uint256"
 			}
 		],
-		"name": "vertifySha256",
+		"name": "checkData",
 		"outputs": [
 			{
-				"name": "result",
-				"type": "bool"
-			}
-		],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "checkState",
-		"outputs": [
-			{
-				"name": "state",
-				"type": "uint256"
+				"internalType": "string",
+				"name": "returnData",
+				"type": "string"
 			}
 		],
 		"payable": false,
@@ -150,26 +62,24 @@ var ABI =[
 		"type": "function"
 	},
 	{
-		"constant": false,
+		"constant": true,
 		"inputs": [
 			{
-				"name": "kData",
-				"type": "string"
-			},
-			{
-				"name": "index",
+				"internalType": "uint256",
+				"name": "len",
 				"type": "uint256"
 			}
 		],
-		"name": "vertifyKeccak256",
+		"name": "checkHash",
 		"outputs": [
 			{
-				"name": "result",
-				"type": "bool"
+				"internalType": "bytes32",
+				"name": "returnData",
+				"type": "bytes32"
 			}
 		],
 		"payable": false,
-		"stateMutability": "nonpayable",
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -178,6 +88,7 @@ var ABI =[
 		"name": "checkLength",
 		"outputs": [
 			{
+				"internalType": "uint256",
 				"name": "len",
 				"type": "uint256"
 			}
@@ -187,35 +98,69 @@ var ABI =[
 		"type": "function"
 	},
 	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "hashValue",
-				"type": "bytes32"
-			}
-		],
-		"name": "voting",
+		"constant": true,
+		"inputs": [],
+		"name": "checkState",
 		"outputs": [
 			{
-				"name": "index",
+				"internalType": "uint256",
+				"name": "state",
 				"type": "uint256"
 			}
 		],
 		"payable": false,
-		"stateMutability": "nonpayable",
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
 		"constant": true,
 		"inputs": [
 			{
+				"internalType": "uint256",
+				"name": "len",
+				"type": "uint256"
+			}
+		],
+		"name": "checkVertify",
+		"outputs": [
+			{
+				"internalType": "uint8",
+				"name": "returnData",
+				"type": "uint8"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "creater",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"internalType": "string",
 				"name": "data",
 				"type": "string"
 			}
 		],
-		"name": "sha256Value",
+		"name": "keccak256Value",
 		"outputs": [
 			{
+				"internalType": "bytes32",
 				"name": "",
 				"type": "bytes32"
 			}
@@ -225,27 +170,106 @@ var ABI =[
 		"type": "function"
 	},
 	{
-		"anonymous": false,
+		"constant": false,
+		"inputs": [],
+		"name": "nextState",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
 		"inputs": [
 			{
-				"indexed": false,
+				"internalType": "string",
+				"name": "data",
+				"type": "string"
+			}
+		],
+		"name": "sha256Value",
+		"outputs": [
+			{
+				"internalType": "bytes32",
+				"name": "",
+				"type": "bytes32"
+			}
+		],
+		"payable": false,
+		"stateMutability": "pure",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "kData",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
 				"name": "index",
 				"type": "uint256"
 			}
 		],
-		"name": "votingIndex",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
+		"name": "vertifyKeccak256",
+		"outputs": [
 			{
-				"indexed": false,
+				"internalType": "bool",
 				"name": "result",
 				"type": "bool"
 			}
 		],
-		"name": "vertifyResult",
-		"type": "event"
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "kData",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "index",
+				"type": "uint256"
+			}
+		],
+		"name": "vertifySha256",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "result",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "hashValue",
+				"type": "bytes32"
+			}
+		],
+		"name": "voting",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "index",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
 	}
 ]
