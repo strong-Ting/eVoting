@@ -78,7 +78,7 @@
 </body>
 <script>
     $("#addC").click(async function(){
-      let index = await addCandiate($('#cc-name').val(),$('#party').val(),$('#num').val());
+      let index = await addCandiate(String($('#cc-name').val()),String($('#party').val()),$('#num').val());
       let Candiate = await getCandidate(index);
       addRow(Candiate.num,Candiate.name,Candiate.party);
       });

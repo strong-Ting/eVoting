@@ -63,6 +63,7 @@
                 </div>
                 <hr class="mb-4">
                 <button id='vote' class="btn btn-primary btn-lg btn-block" type="submit">Vote</button>
+                <button id='vote' class="btn btn-primary btn-lg btn-block" type="submit">Vertify</button>
               </form>
         </div>
     </div>
@@ -70,15 +71,18 @@
 
 </body>
 <script>
+  let DataArray = [];
   $("#vote").click(async function(){
     let data = {
       "kData": $('#ID').val(),
       "vote": $('#optionPeople').val()
     }
-    data = await keccak256Value(JSON.stringify(data));
-    console.log(data);
-    let index = await voting(data);
+   
+    let hash = await keccak256Value(JSON.stringify(data));
+    console.log(hash);
+    let index = await voting(hash);
     console.log(index);
+    DataArray.push({index:index,data:JSON.stringify(data)});
     alert('vote success!');
     });
 
@@ -98,5 +102,11 @@
     }
   }
   main();
+  async function Vertify(){
+    DataArray.forEach((element)=>{
+      console.log(element);
+      vertifing(element.data,parseInt(element.index));
+    });
+  }
 </script>
 </html>
