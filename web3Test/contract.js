@@ -13,7 +13,14 @@ const keccak256 = (string)=>{ return web3.utils.keccak256(string)};
 
 web3.eth.personal.unlockAccount('0x18f4024FbD6AbdDA9CA4832ce2Af2C41631573d2',"node1");
 
-const Mycontract = new web3.eth.Contract(ABI,'0x81Ec6AC6A2501880CEe7463B86E35683d81a5513');
+let Mycontract = new web3.eth.Contract(ABI,'0x8cc1ba0f15577cC0D12064cBCE882fCdC4dabdC8');
+
+
+const options = {
+    from:'0x18f4024FbD6AbdDA9CA4832ce2Af2C41631573d2' ,
+    gas: 1500000,
+    gasPrice: '0x1B48EB57E000',
+};
 
 async function deploy(){
     var data = await Mycontract.deploy({
@@ -24,22 +31,48 @@ async function deploy(){
 
         .send({
         from: '0x18f4024FbD6AbdDA9CA4832ce2Af2C41631573d2',
-        gas: 1500000,
+        gas: 2100000,
         gasprice: '0x1B48EB57E000', //base10 30000000000000
     })
-        console.log(data.options.address);
+       // console.log(data.options.address);
+       // console.log(data);
 	return data;
 
 }
 
+async function addCandiate(name){
+    let result = await Mycontract.methods.addCandidate(name).send(options);
+    console.log(result);
+}
+
+async function CandidateNum(){
+    let num = await Mycontract.methods.CandidateNum().call();
+    return num;
+}
+
+async function Candidations(num){
+    let name = await Mycontract.methods.Candidations(num).call();
+    return name;
+}
+
+async function nextState(){
+    let result = await Mycontract.methods.nextState().send(options);
+
+}
+
+async function checkState(){
+    let state = await Mycontract.methods.checkState().call();
+    console.log(state);
+    return state;
+}
+
+async function newVote(){
+    let newVoting = await deploy();
+    let Mycontract = new web3.eth.Contract(ABI,newVoting.options.address);
+    console.log(Mycontract.options.address);
+}
 
 
-
-const options = {
-  from:'0x18f4024FbD6AbdDA9CA4832ce2Af2C41631573d2' ,
-  gas: 1500000,
-  gasPrice: '0x1B48EB57E000',
-};
 
 async function callData(){
 

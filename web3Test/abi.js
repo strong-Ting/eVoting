@@ -1,5 +1,24 @@
 var ABI =[
 	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "index",
+				"type": "uint256"
+			}
+		],
+		"name": "Candidations",
+		"outputs": [
+			{
+				"name": "returnData",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"constant": false,
 		"inputs": [],
 		"name": "nextState",
@@ -138,11 +157,25 @@ var ABI =[
 	{
 		"constant": true,
 		"inputs": [],
+		"name": "CandidateNum",
+		"outputs": [
+			{
+				"name": "returnData",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
 		"name": "checkState",
 		"outputs": [
 			{
 				"name": "state",
-				"type": "uint256"
+				"type": "uint8"
 			}
 		],
 		"payable": false,
