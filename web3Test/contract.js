@@ -13,7 +13,7 @@ const keccak256 = (string)=>{ return web3.utils.keccak256(string)};
 
 web3.eth.personal.unlockAccount('0x18f4024FbD6AbdDA9CA4832ce2Af2C41631573d2',"node1");
 
-let Mycontract = new web3.eth.Contract(ABI,'0x8cc1ba0f15577cC0D12064cBCE882fCdC4dabdC8');
+let Mycontract = new web3.eth.Contract(ABI,'0xF94C631786806EE7129bcf4bC58aaa5e54330b64');
 
 
 const options = {
@@ -40,9 +40,18 @@ async function deploy(){
 
 }
 
-async function addCandiate(name){
-    let result = await Mycontract.methods.addCandidate(name).send(options);
+async function getVoteData(len){
+    let VoteData = await Mycontract.methods.getVoteData(len).call();
+    console.log(VoteData);
+    return VoteData;
+}
+
+async function addCandiate(name,party,num){
+    let result = await Mycontract.methods.addCandidate(name,party,num).send(options);
     console.log(result);
+    let index = result.events.CandidateAdd.returnValues.index;
+    console.log(index);
+    return index;
 }
 
 async function CandidateNum(){
@@ -65,13 +74,25 @@ async function checkState(){
     console.log(state);
     return state;
 }
-
+async function getCandidate(index){
+    let data = await Mycontract.methods.getCandidate(index).call();
+    let Candidate ={
+        "name":data.name,
+        "party":data.party,
+        "num":data.num
+    }
+    //console.log(Candidate);
+    return Candidate;
+}
+async function CandidateNum(){
+    let num = await Mycontract.methods.CandidateNum().call();
+    return num;
+}
 async function newVote(){
     let newVoting = await deploy();
-    let Mycontract = new web3.eth.Contract(ABI,newVoting.options.address);
+    Mycontract = new web3.eth.Contract(ABI,newVoting.options.address);
     console.log(Mycontract.options.address);
 }
-
 
 
 async function callData(){
@@ -84,6 +105,10 @@ async function callData(){
 
 }
 
+async function keccak256Value(data){
+    var hash = await Mycontract.methods.keccak256Value(data).call();
+    return hash;
+}
 
 async function voting(hashValue){
     var vote = await Mycontract.methods.voting(hashValue).send(options);
@@ -127,12 +152,4 @@ function vertifyResult(){
     })
 }
 
-//callData()
-/*
-Mycontract.methods.voting('0x5fe7f977e71dba2ea1a68e21057beebb9be2ac30c6410aa38d4f3fbe41dcffd2').send(options,(err,hash)=>{
 
-    if(err){
-        console.log(err);
-    }
-    console.log(hash);
-}).then((r)=>{console.log(r);})*/

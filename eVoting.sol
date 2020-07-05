@@ -1,9 +1,10 @@
 pragma solidity ^0.5.3;
+pragma experimental ABIEncoderV2;
 
 contract eVoting{
     
-  event votingIndex(uint256 index);    
-  event vertifyResult(bool result);
+  
+
   address public creater = msg.sender;
   
   enum State{
@@ -19,9 +20,20 @@ contract eVoting{
     string kData;
     uint8 vertifyResult; //0 == false , 1 == true ,2 == unVertify
   }
-  string[] Candidate;
+  
+  struct Candidate{
+      uint256 num;
+      string name;
+      string party;
+  }
+  
+  Candidate[] Candidations;
   EachUpdate[] votingMachine;
-
+  
+  event votingIndex(uint256 index);    
+  event vertifyResult(bool result);
+  event CandidateAdd(Candidate data);
+  
   modifier onlyCreater{
       require(msg.sender == creater);
       _;
@@ -37,8 +49,15 @@ contract eVoting{
       
   }
  
-  function addCandidate(string memory _Candidate) stateCheck(State.prepare) onlyCreater public{
-      Candidate.push(_Candidate);
+  function addCandidate(string memory Name,string memory Party,uint256  Num) stateCheck(State.prepare) onlyCreater public returns(uint256 index/*Candidate  memory CandidateData*/){
+    index = Candidations.push(
+          Candidate({
+              name:Name,
+              num:Num,
+              party:Party
+    }))-1;
+    //CandidateData = Candidations[index];
+    //emit CandidateAdd(CandidateData);
   }
   
   function voting(bytes32 hashValue)stateCheck(State.voting) public returns(uint256 index){
@@ -108,4 +127,15 @@ contract eVoting{
   function checkState()public view returns(State state){
       return VoteState;
   }
+  function getVoteData(uint len)public view returns(EachUpdate memory VoteData){
+      return votingMachine[len];
+  }
+  function getCandidate(uint len)public view returns(Candidate memory Data){
+      return Candidations[len];
+  }
+  function CandidateNum()public view returns(uint len){
+      return Candidations.length;
+  }
+  
+  
 }

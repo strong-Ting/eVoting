@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="./bootstrap/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <script src="./bootstrap/js/bootstrap.min.js"></script>
+    <script src="./node_modules/web3/dist/web3.min.37.js"></script>
+    <script src="./abi.js"></script>
+
+    <script src="./byteCode.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+
+    <script src="./contract.js"></script>   
+  
+</head>
+<body>
+    
+    <div class="container">
+    <h1>eVoting-新增候選人</h1>
+    
+               
+    
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label for="cc-name">候選人姓名</label>
+                    <input type="text" class="form-control" id="cc-name" placeholder="" required="">
+                  
+                    <div class="invalid-feedback">
+                      Name on card is required
+                    </div>
+                  </div>
+                  
+                </div>
+                <div class="row">
+                  <div class="col-md-3 mb-3">
+                    <label for="cc-expiration">編號</label>
+                    <input type="text" class="form-control" id="num" placeholder="" required="">
+                    <div class="invalid-feedback">
+                      Expiration date required
+                    </div>
+                  </div>
+                  <div class="col-md-3 mb-3">
+                    <label for="cc-expiration">黨籍</label>
+                    <input type="text" class="form-control" id="party" placeholder="" required="">
+                    <div class="invalid-feedback">
+                      Security code required
+                    </div>
+                  </div>
+                </div>
+                
+                <hr class="mb-4">
+                <button id="addC" class="btn btn-primary btn-lg btn-block" type="submit">ADD</button>
+              </form>
+        </div>
+    </div>
+    <table class="table">
+      <thead>
+          <tr>
+              <th>編號</th>
+              <th>姓名</th>
+              <th>黨籍</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr >
+              <!--td>John</td>
+              <td>Doe</t-->
+              
+          </tr>
+         
+      </tbody>
+      </table>
+
+</body>
+<script>
+    $("#addC").click(async function(){
+      let index = await addCandiate($('#cc-name').val(),$('#party').val(),$('#num').val());
+      let Candiate = await getCandidate(index);
+      addRow(Candiate.num,Candiate.name,Candiate.party);
+      });
+
+    function addRow(num,name,party){
+      $('tbody').append("<tr><td>"+num+"</td><td>"+name+"</td>><td>"+party+"</td></tr>") 
+            
+    }
+
+
+    async function main(){
+      let num = await CandidateNum();
+      while(num!=0){
+        let Candiate = await getCandidate(num-1);
+        console.log(Candiate);
+        addRow(Candiate.num,Candiate.name,Candiate.party);
+        num--;
+      }
+    }
+    main();
+</script>
+</html>

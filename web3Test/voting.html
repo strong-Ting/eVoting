@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="./bootstrap/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <script src="./bootstrap/js/bootstrap.min.js"></script>
+    <script src="./node_modules/web3/dist/web3.min.37.js"></script>
+    <script src="./abi.js"></script>
+
+    <script src="./byteCode.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+
+    <script src="./contract.js"></script>   
+  
+</head>
+<body>
+    
+    <div class="container">
+    <h1>eVoting-vote</h1>
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label for="cc-name">ID card Number</label>
+                    <input type="text" class="form-control" id="ID" placeholder="" required="">
+                  
+                    <div class="invalid-feedback">
+                      Name on card is required
+                    </div>
+                  </div>
+                  
+                </div>
+                <!--div class="row">
+                  <div class="col-md-3 mb-3">
+                    <label for="cc-expiration">Expiration</label>
+                    <input type="text" class="form-control" id="cc-expiration" placeholder="" required="">
+                    <div class="invalid-feedback">
+                      Expiration date required
+                    </div>
+                  </div>
+                  <div class="col-md-3 mb-3">
+                    <label for="cc-expiration">CVV</label>
+                    <input type="text" class="form-control" id="cc-cvv" placeholder="" required="">
+                    <div class="invalid-feedback">
+                      Security code required
+                    </div>
+                  </div>
+                </div-->
+                <div class="row">
+                    <div class="col-md-7 mb-3">
+                        <label for="state">候選人</label>
+                        <select class="custom-select d-block w-100" id="optionPeople" required="">
+                          <option value="">Choose...</option>
+                          <!--option>1:XXX</option>
+                          <option>2:OOO</option-->
+    
+                        </select>
+                        <div class="invalid-feedback">
+                          Please provide a valid state.
+                    </div>
+                </div>
+                <hr class="mb-4">
+                <button id='vote' class="btn btn-primary btn-lg btn-block" type="submit">Vote</button>
+              </form>
+        </div>
+    </div>
+ 
+
+</body>
+<script>
+  $("#vote").click(async function(){
+    let data = {
+      "kData": $('#ID').val(),
+      "vote": $('#optionPeople').val()
+    }
+    data = await keccak256Value(JSON.stringify(data));
+    console.log(data);
+    let index = await voting(data);
+    console.log(index);
+    alert('vote success!');
+    });
+
+  function addOption(name,party){
+    $('#optionPeople').append("<option>"+name+'('+party+')'+"</option>") 
+          
+  }
+
+
+  async function main(){
+    let num = await CandidateNum();
+    while(num!=0){
+      let Candiate = await getCandidate(num-1);
+      console.log(Candiate);
+      addOption(Candiate.name,Candiate.party);
+      num--;
+    }
+  }
+  main();
+</script>
+</html>
