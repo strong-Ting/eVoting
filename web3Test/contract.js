@@ -13,7 +13,7 @@ const keccak256 = (string)=>{ return web3.utils.keccak256(string)};
 
 web3.eth.personal.unlockAccount('0x18f4024FbD6AbdDA9CA4832ce2Af2C41631573d2',"node1");
 
-let Mycontract = new web3.eth.Contract(ABI,'0xd9c172e1223fCAe8Ad864A310b1Dc3caB8b703aE');
+let Mycontract = new web3.eth.Contract(ABI,'0x587dc5bDE88585615202f9FB0092B0C67766Cd87');
 
 
 const options = {
@@ -71,7 +71,7 @@ async function nextState(){
 
 async function checkState(){
     let state = await Mycontract.methods.checkState().call();
-    console.log(state);
+    //console.log(state);
     return state;
 }
 async function getCandidate(index){

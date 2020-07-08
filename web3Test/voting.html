@@ -63,7 +63,7 @@
                 </div>
                 <hr class="mb-4">
                 <button id='vote' class="btn btn-primary btn-lg btn-block" type="submit">Vote</button>
-                <button id='vote' class="btn btn-primary btn-lg btn-block" type="submit">Vertify</button>
+                <button id='Vertify' class="btn btn-primary btn-lg btn-block" type="submit">Vertify</button>
               </form>
         </div>
     </div>
@@ -72,12 +72,14 @@
 </body>
 <script>
   let DataArray = [];
+  let voteWho = [];
   $("#vote").click(async function(){
+    
     let data = {
       "kData": $('#ID').val(),
       "vote": $('#optionPeople').val()
     }
-   
+    voteWho.push($('#optionPeople').val());
     let hash = await keccak256Value(JSON.stringify(data));
     console.log(hash);
     let index = await voting(hash);
@@ -85,6 +87,10 @@
     DataArray.push({index:index,data:JSON.stringify(data)});
     alert('vote success!');
     });
+
+  $('#Vertify').click(async function(){
+    Vertify();
+  });
 
   function addOption(name,party){
     $('#optionPeople').append("<option>"+name+'('+party+')'+"</option>") 

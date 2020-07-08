@@ -20,6 +20,66 @@
 <body>
     
     <div class="container">
+    <h1>eVoting-state</h1>
+    
+    <table class="table">
+      <thead>
+          <tr>
+              <th>State</th>
+             
+          </tr>
+          
+      </thead>
+      <tbody>
+          
+         
+      </tbody>
+      </table>          
+    
+                
+    
+                <hr class="mb-4">
+                <button id='next' class="btn btn-primary btn-lg btn-block" type="submit">next</button>
+              </form>
+        </div>
+    </div>
+    
+
+</body>
+<script>
+  function addRow(state){
+    $('tbody')[0].innerHTML = "<td>"+state+"</td>"; 
+            
+    }
+   $("#next").click(async function(){
+     console.log('changing state!')
+   // origin();  
+    await nextState();
+      let state = await checkState();
+      switch(state){
+      case '0':
+        state = 'prepare';
+        //addCandiace();
+        break;
+      case '1':
+        state = 'voting';
+      
+        break;
+      case '2':
+        state = 'vertifing';
+     
+        break;
+      case '3':
+        state = 'finish';
+    
+        break;
+    }
+    
+    addRow(state);
+     
+    });
+  function addCandiace1(){
+    $("body")[0].innerHTML +=`<div class="container">
     <h1>eVoting-新增候選人</h1>
     
                
@@ -54,56 +114,39 @@
                 
                 <hr class="mb-4">
                 <button id="addC" class="btn btn-primary btn-lg btn-block" type="submit">ADD</button>
-              </form>
-        </div>
-    </div>
-    <table class="table">
-      <thead>
-          <tr>
-              <th>編號</th>
-              <th>姓名</th>
-              <th>黨籍</th>
-          </tr>
-      </thead>
-      <tbody>
-          <tr >
-              <!--td>John</td>
-              <td>Doe</t-->
               
-          </tr>
-         
-      </tbody>
-      </table>
+        </div>`
+  }
+  
+  async function main(){
+    let state = await checkState();
+    switch(state){
+      case '0':
+        state = 'prepare';
+        //addCandiace1();
+        break;
+      case '1':
+        state = 'voting';
+      
 
-</body>
-<script>
-    $("#addC").click(async function(){
-      let state = await checkState();
-      if(state == '0'){
-      let index = await addCandiate(String($('#cc-name').val()),String($('#party').val()),$('#num').val());
-      let Candiate = await getCandidate(index);
-      addRow(Candiate.num,Candiate.name,Candiate.party);
-      }
-      else{
-        alert('the state can not add Candiate')
-      }
-      });
+        //origin();
+        break;
+      case '2':
+        state = 'vertifing';
+ 
 
-    function addRow(num,name,party){
-      $('tbody').append("<tr><td>"+num+"</td><td>"+name+"</td>><td>"+party+"</td></tr>") 
-            
+        //origin();
+        break;
+      case '3':
+        state = 'finish';
+        //origin();
+        break;
     }
+  
+    addRow(state);
+  };
+  
 
-
-    async function main(){
-      let num = await CandidateNum();
-      while(num!=0){
-        let Candiate = await getCandidate(num-1);
-        console.log(Candiate);
-        addRow(Candiate.num,Candiate.name,Candiate.party);
-        num--;
-      }
-    }
-    main();
+  main();
 </script>
 </html>
